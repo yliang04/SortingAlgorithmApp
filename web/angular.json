@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "sorting-algorithm-app"
+    }
+  },
+  "defaultProject": "sorting-algorithm-app",
+  "cli": {
+    "analytics": false
+  }
 }

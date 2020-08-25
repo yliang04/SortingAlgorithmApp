@@ -1,0 +1,10 @@
+<div>
+  <h3>Sample Size: 1 - <input [(ngModel)]="this.size"/>
+  </h3>
+</div>
+<div class="button panel">
+  <button>Randomize</button>
+  <button>Sort</button>
+</div>
+
+<app-graph [barNum] = "this.size"></app-graph>
