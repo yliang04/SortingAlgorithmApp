@@ -1,10 +1,11 @@
 <div>
-  <h3>Sample Size: 1 - <input [(ngModel)]="this.size"/>
-  </h3>
+  <h4>Sample Size: 1 - <input [(ngModel)]="this.size"/>
+  </h4>
 </div>
-<div class="button panel">
-  <button>Randomize</button>
-  <button>Sort</button>
+<div class="panel">
+  <button (click)="randomize()">Randomize</button>
+  <button (click)="sort()">Sort</button>
 </div>
 
-<app-graph [barNum] = "this.size"></app-graph>
+<app-graph [size]="this.size" [randomize]="this.randomizeEventSubject.asObservable()"
+           [sort]="this.sortEventSubject.asObservable()"></app-graph>
