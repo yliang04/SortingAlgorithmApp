@@ -12,8 +12,6 @@ export class GraphService {
   createBars(size: number): Observable<Bar[]> {
     let bars = [];
 
-    console.log("create bars");
-
     for(let i = 1; i <= size; i++) {
       let bar: Bar = {
         highlighted: false,
@@ -38,6 +36,10 @@ export class GraphService {
       bars[b] = temp;
     }
 
+    return of(bars);
+  }
+
+  sort(bars: Bar[]): Observable<Bar[]> {
     return of(bars);
   }
 }

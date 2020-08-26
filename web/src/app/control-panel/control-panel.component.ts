@@ -11,6 +11,7 @@ export class ControlPanelComponent implements OnInit {
   @Input() size: number = 20;
   randomizeEventSubject: Subject<void>  = new Subject<void>();
   sortEventSubject: Subject<void>  = new Subject<void>();
+  swapEvenSubject: Subject<void> = new Subject<void>();
 
   constructor() { }
 
@@ -23,5 +24,9 @@ export class ControlPanelComponent implements OnInit {
 
   sort(): void {
     this.sortEventSubject.next();
+  }
+
+  swap(): void {
+    this.swapEvenSubject.next();
   }
 }
