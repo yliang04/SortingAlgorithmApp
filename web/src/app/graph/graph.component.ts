@@ -24,6 +24,8 @@ export class GraphComponent implements OnInit, OnDestroy{
     this.createBars();
   }
 
+  @Input() selectedAlgorithm: string;
+
   @Input() randomize: Observable<void>;
   @Input() sort: Observable<void>;
   @Input() swap: Observable<void>;
@@ -58,7 +60,12 @@ export class GraphComponent implements OnInit, OnDestroy{
   }
 
   private sortArray(): void {
-    this.algorithmService.sort(this.bars);
+    this.algorithmService.algorithmChoice = this.selectedAlgorithm;
+
+    /**
+     * Note: IMPORTANT!! provide a clone of the array
+     */
+    this.algorithmService.sort([...this.bars]);
   }
 
   private swapBars(bars: Bar[], i: number, j: number) {

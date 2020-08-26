@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {Bar} from "../bar";
-import {Pair} from "../pair";
+import {AlgorithmList} from "./algorithm/algorithm-list";
+import {SortingAlgorithm} from "../sorting-algorithm";
+import {BubbleSortAlgorithmService} from "./algorithm/bubble-sort-algorithm.service";
+import {MergeSortAlgorithmService} from "./algorithm/merge-sort-algorithm.service";
+import {QuickSortAlgorithmService} from "./algorithm/quick-sort-algorithm.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,52 +13,40 @@ import {Pair} from "../pair";
 export class AlgorithmService {
 
   private source = new Subject<any>();
+  private currentAlgorithm: SortingAlgorithm;
+  private _algorithmChoice: string;
+
+  get algorithmChoice(): string {
+    return this._algorithmChoice;
+  }
+
+  set algorithmChoice(choice: string) {
+    this._algorithmChoice = choice;
+
+    switch (choice) {
+      case AlgorithmList.Bubble:
+        this.currentAlgorithm = this.bubbleSortAlgorithmService;
+        break;
+      case AlgorithmList.Merge:
+        this.currentAlgorithm = this.mergeSortAlgorithmService;
+        break;
+      case AlgorithmList.Quick:
+        this.currentAlgorithm = this.quickSortAlgorithmService;
+    }
+  }
+
   public swapSignal = this.source.asObservable();
 
-  constructor() { }
+  constructor(private bubbleSortAlgorithmService: BubbleSortAlgorithmService,
+              private mergeSortAlgorithmService: MergeSortAlgorithmService,
+              private quickSortAlgorithmService: QuickSortAlgorithmService) { }
 
-  private emitSignal(a: number, b: number): void {
-    let pair: Pair = {
-      i: a,
-      j: b
-    };
-
-    this.source.next(pair);
+  getAlgorithmList(): Observable<string[]> {
+    return of(Object.keys(AlgorithmList).map(k => AlgorithmList[k as string]));
   }
 
   sort(bars: Bar[]): void {
     //sort on a clone of the target array
-    this.bubbleSort([...bars]);
-  }
-
-  bubbleSort(bars: Bar[]): void {
-    let size = bars.length;
-    let counter = 0;
-    let signalSource = this.source;
-
-    for(let  i = 0; i < size - 1; i++) {
-      for(let j = 1; j < size - i; j++) {
-        if(bars[j - 1].value > bars[j].value) {
-          counter++;
-
-          //emit swap steps to the actual array outside
-          setTimeout(function() {
-            let pair: Pair = {
-              i: j - 1,
-              j: j
-            };
-
-            signalSource.next(pair);
-          }, counter * 100);
-
-          //this.emitSignal(j - 1, j);
-
-          //do swap
-          let temp = bars[j - 1];
-          bars[j - 1] = bars[j];
-          bars[j] = temp;
-        }
-      }
-    }
+    this.currentAlgorithm.sort(bars, this.source);
   }
 }
