@@ -1,9 +1,12 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Bar} from "../bar";
 import {GraphService} from "../services/graph.service";
-import {animationFrameScheduler, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {AlgorithmService} from "../services/algorithm.service";
-import {delay} from "rxjs/operators";
+import {Pair} from "../pair";
+
+//time delay of each animation frame in millisecond
+const FRAME_DELAY: number = 100;
 
 @Component({
   selector: 'app-graph',
@@ -31,16 +34,16 @@ export class GraphComponent implements OnInit, OnDestroy{
   @Input() swap: Observable<void>;
 
   constructor(private graphService: GraphService, private algorithmService: AlgorithmService) {
-    //this.subscription = algorithmService.swapSignal.subscribe(pair => this.swapBars(this.bars, pair.i, pair.j));
-
-    this.subscription = algorithmService.swapSignal.subscribe(pair => this.swapBars(this.bars, pair.i, pair.j));
+    this.subscription = algorithmService.result.subscribe(result => this.processResult(result));
   }
 
   ngOnInit(): void {
     this.createBars();
     this.randomize.subscribe(() => this.randomizeArray());
     this.sort.subscribe(() => this.sortArray());
-    this.swap.subscribe(() => this.swapBars(this.bars, 1, 15));
+
+    //Deprecated. Do nothing.
+    this.swap.subscribe();
   }
 
   ngOnDestroy(): void {
@@ -65,24 +68,66 @@ export class GraphComponent implements OnInit, OnDestroy{
     /**
      * Note: IMPORTANT!! provide a clone of the array
      */
-    this.algorithmService.sort([...this.bars]);
+    this.algorithmService.sort(this.bars);
   }
 
-  private swapBars(bars: Bar[], i: number, j: number) {
-    setTimeout(function() {
-      bars[i].highlighted = true;
-      bars[j].highlighted = true;
-    }, 50);
+  /**
+   * Turn result into streams of actions
+   */
+  private processResult(result: Pair[]) {
+    let counter = 0;
 
-    setTimeout(function() {
-      let temp = bars[i];
-      bars[i] = bars[j];
-      bars[j] = temp;
-    }, 100);
+    for (let pair of result) {
+      if(pair.swap) {
+        counter = this.doSwap(pair, counter);
+      }
+      else {
+        counter = this.doHighlight(pair, counter);
+      }
+    }
+  }
 
-    setTimeout(function() {
-      bars[i].highlighted = false;
-      bars[j].highlighted = false;
-    }, 100);
+  private doSwap(pair: Pair, counter: number): number {
+    setTimeout(() => {
+      this.bars[pair.i].highlighted = true;
+      this.bars[pair.j].highlighted = true;
+    }, FRAME_DELAY * counter);
+
+    counter++;
+
+    setTimeout(() => {
+      let temp = this.bars[pair.i];
+      this.bars[pair.i] = this.bars[pair.j];
+      this.bars[pair.j] = temp;
+    }, FRAME_DELAY * counter);
+
+    counter++;
+
+    setTimeout(() => {
+      this.bars[pair.i].highlighted = false;
+      this.bars[pair.j].highlighted = false;
+    }, FRAME_DELAY * counter);
+
+    return counter;
+  }
+
+  private doHighlight(pair: Pair, counter: number): number {
+    setTimeout(() => {
+      this.bars[pair.i].highlighted = true;
+    }, FRAME_DELAY * counter);
+
+    counter++;
+
+    setTimeout(() => {
+      this.bars[pair.i].value = pair.j;
+    }, FRAME_DELAY * counter);
+
+    counter++;
+
+    setTimeout(() => {
+      this.bars[pair.i].highlighted = false;
+    }, FRAME_DELAY * counter);
+
+    return counter;
   }
 }

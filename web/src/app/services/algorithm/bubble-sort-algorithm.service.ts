@@ -12,33 +12,35 @@ export class BubbleSortAlgorithmService implements SortingAlgorithm {
   constructor() {
   }
 
-  sort(bars: Bar[], signalEmitter: Subject<Pair>): void {
-    let size = bars.length;
-    let counter = 0;
+  sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void {
+    let result: Pair[] = [];
 
+    let size = bars.length;
+
+    //bubble sort
     for (let i = 0; i < size - 1; i++) {
       for (let j = 1; j < size - i; j++) {
         if (bars[j - 1].value > bars[j].value) {
-          counter++;
-
-          //emit swap steps to the actual array outside
-          setTimeout(function () {
-            let pair: Pair = {
-              i: j - 1,
-              j: j
-            };
-
-            signalEmitter.next(pair);
-          }, counter * 100);
-
-          //this.emitSignal(j - 1, j);
-
           //do swap
-          let temp = bars[j - 1];
-          bars[j - 1] = bars[j];
-          bars[j] = temp;
+          this.swap(bars, j - 1, j, result);
         }
       }
     }
+
+    resultEmitter.next(result);
+  }
+
+  private swap(bars: Bar[], start: number, end: number, result: Pair[]): void {
+    let newPair: Pair = {
+      i: start,
+      j: end,
+      swap: true
+    };
+
+    result.push(newPair);
+
+    let temp = bars[start];
+    bars[start] = bars[end];
+    bars[end] = temp;
   }
 }

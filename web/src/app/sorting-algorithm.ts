@@ -3,5 +3,5 @@ import {Subject} from "rxjs";
 import {Pair} from "./pair";
 
 export declare interface SortingAlgorithm {
-  sort(bars: Bar[], signalEmitter: Subject<Pair>): void;
+  sort(bars: Bar[], signalEmitter: Subject<any>): void;
 }

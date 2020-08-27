@@ -6,15 +6,19 @@ import {SortingAlgorithm} from "../sorting-algorithm";
 import {BubbleSortAlgorithmService} from "./algorithm/bubble-sort-algorithm.service";
 import {MergeSortAlgorithmService} from "./algorithm/merge-sort-algorithm.service";
 import {QuickSortAlgorithmService} from "./algorithm/quick-sort-algorithm.service";
+import {Pair} from "../pair";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlgorithmService {
 
-  private source = new Subject<any>();
+  private resultSource = new Subject<Pair[]>();
+
   private currentAlgorithm: SortingAlgorithm;
   private _algorithmChoice: string;
+
+  public result = this.resultSource.asObservable();
 
   get algorithmChoice(): string {
     return this._algorithmChoice;
@@ -35,8 +39,6 @@ export class AlgorithmService {
     }
   }
 
-  public swapSignal = this.source.asObservable();
-
   constructor(private bubbleSortAlgorithmService: BubbleSortAlgorithmService,
               private mergeSortAlgorithmService: MergeSortAlgorithmService,
               private quickSortAlgorithmService: QuickSortAlgorithmService) { }
@@ -47,6 +49,6 @@ export class AlgorithmService {
 
   sort(bars: Bar[]): void {
     //sort on a clone of the target array
-    this.currentAlgorithm.sort(bars, this.source);
+    this.currentAlgorithm.sort([...bars], this.resultSource);
   }
 }
