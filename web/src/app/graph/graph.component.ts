@@ -6,7 +6,7 @@ import {AlgorithmService} from "../services/algorithm.service";
 import {Pair} from "../pair";
 
 //time delay of each animation frame in millisecond
-const FRAME_DELAY: number = 100;
+const FRAME_DELAY: number = 50;
 
 @Component({
   selector: 'app-graph',

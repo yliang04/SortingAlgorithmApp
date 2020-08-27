@@ -14,11 +14,8 @@ export class QuickSortAlgorithmService implements SortingAlgorithm {
   sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void {
     let result : Pair[] = [];
 
-    console.log("***Start quick sort");
     this.quickSort(bars, result, 0 , bars.length - 1);
 
-
-    console.log("***return result:" + result.length);
     resultEmitter.next(result);
   }
 
@@ -48,8 +45,6 @@ export class QuickSortAlgorithmService implements SortingAlgorithm {
       while(bars[end].value > pivot) {
         end--;
       }
-
-      console.log(bars[start].value + " " + bars[end].value);
 
       if(start <= end) {
         this.swap(bars, start, end, result);

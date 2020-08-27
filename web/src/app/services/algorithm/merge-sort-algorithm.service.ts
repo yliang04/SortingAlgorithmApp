@@ -15,9 +15,7 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
     let helper: Bar[] = [];
     let result: Pair[] = [];
 
-    console.log("**start sort");
     this.mergeSort(bars, helper, 0, bars.length - 1, result);
-    console.log("***end sort: " + result.length);
 
     resultEmitter.next(result);
   }
@@ -27,7 +25,7 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
       /**
        * Note: IMPORTANT!! Need to use Math.floor() here to get index as integer
        */
-      let mid = Math.floor(start + (end - start) / 2);
+      let mid = Math.floor((start + end) / 2);
 
       this.mergeSort(bars, helper, start, mid, result);
       this.mergeSort(bars, helper, mid + 1, end, result);
@@ -42,37 +40,34 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
 
     let helperLeft = start;
     let helperRight = mid + 1;
-    let counter = start;
+    let current = start;
 
     while(helperLeft <= mid && helperRight <= end) {
       if(helper[helperLeft].value < helper[helperRight].value) {
-        bars[counter] = helper[helperLeft];
+        bars[current] = helper[helperLeft];
         helperLeft++;
 
         //add to result
-        this.addToResult(result, counter, bars[counter].value);
+        this.addToResult(result, current, bars[current].value);
       }
       else {
-        bars[counter] = helper[helperRight];
+        bars[current] = helper[helperRight];
         helperRight++;
 
         //add to result
-        this.addToResult(result, counter, bars[counter].value);
+        this.addToResult(result, current, bars[current].value);
       }
 
-      counter++;
+      current++;
     }
 
     let remain = mid - helperLeft;
 
-    while(remain >= 0) {
-      bars[counter] = helper[helperLeft + remain];
+    for(let i = 0; i <= remain; i++) {
+      bars[current + i] = helper[helperLeft + i];
 
       //add to result
-      this.addToResult(result, counter, bars[counter].value);
-
-      remain--;
-      counter++;
+      this.addToResult(result, current + i, bars[current + i].value)
     }
   }
 
