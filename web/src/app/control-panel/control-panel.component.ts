@@ -11,13 +11,18 @@ import {AlgorithmList} from "../services/algorithm/algorithm-list";
 export class ControlPanelComponent implements OnInit {
 
   @Input() size: number = 150;
-  @Input() selectedAlgorithm: string = AlgorithmList.Bubble;
+  @Input() selectedAlgorithm: string = AlgorithmList.Quick;
 
-  randomizeEventSubject: Subject<void>  = new Subject<void>();
-  sortEventSubject: Subject<void>  = new Subject<void>();
-  swapEvenSubject: Subject<void> = new Subject<void>();
+  private randomizeEventSubject: Subject<void>  = new Subject<void>();
+  private sortEventSubject: Subject<void>  = new Subject<void>();
+  private swapEvenSubject: Subject<void> = new Subject<void>();
+
+  randomizeSignal = this.randomizeEventSubject.asObservable();
+  sortSignal = this.sortEventSubject.asObservable();
+  swapSignal = this.swapEvenSubject.asObservable();
 
   algorithmList: string[];
+  formDisabled: boolean = false;
 
   constructor(private algorithmService: AlgorithmService) {}
 
@@ -31,6 +36,7 @@ export class ControlPanelComponent implements OnInit {
 
   sort(): void {
     this.sortEventSubject.next();
+    this.formDisabled = true;
   }
 
   swap(): void {

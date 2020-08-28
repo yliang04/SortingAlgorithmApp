@@ -4,17 +4,19 @@
   </div>
   <div class="row h-50">
     <label for="algorithmList" class="col-form-label mr-2 text-primary">Algorithm List:</label>
-    <select id="algorithmList" class="col-form-label mr-1" [(ngModel)]="selectedAlgorithm">
+    <select id="algorithmList" class="col-form-label mr-1" [(ngModel)]="selectedAlgorithm" [disabled]="this.formDisabled">
       <option *ngFor="let algorithm of algorithmList">{{algorithm}}</option>
     </select>
-    <button type="button" (click)="sort()" class="col-form-label mr-3 btn btn-outline-primary">Sort</button>
-    <button type="button" (click)="randomize()" class="col-form-label mr-3 btn btn-outline-primary">Randomize</button>
-    <button type="button" (click)="swap()" class=" col-form-label mr-3 btn btn-outline-primary" [disabled]="true">
+    <button type="button" (click)="sort()" class="col-form-label mr-3 btn btn-outline-primary"
+            [disabled]="this.formDisabled">Sort</button>
+    <button type="button" (click)="randomize()" class="col-form-label mr-3 btn btn-outline-primary"
+            [disabled]="this.formDisabled">Randomize</button>
+    <button type="button" (click)="swap()" class=" col-form-label mr-3 btn btn-outline-primary"
+            [disabled]="true">
       Swap Animation Test
     </button>
   </div>
 </div>
 
-<app-graph [size]="this.size" [randomize]="this.randomizeEventSubject.asObservable()"
-           [sort]="this.sortEventSubject.asObservable()" [swap]="this.swapEvenSubject.asObservable()"
-           [selectedAlgorithm]="this.selectedAlgorithm"></app-graph>
+<app-graph [size]="this.size" [randomize]="randomizeSignal" [sort]="sortSignal" [swap]="swapSignal"
+           [selectedAlgorithm]="this.selectedAlgorithm" (animationFinished)="this.formDisabled = false"></app-graph>

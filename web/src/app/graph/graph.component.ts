@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Bar} from "../bar";
 import {GraphService} from "../services/graph.service";
 import {Observable} from "rxjs";
@@ -32,6 +32,8 @@ export class GraphComponent implements OnInit, OnDestroy{
   @Input() randomize: Observable<void>;
   @Input() sort: Observable<void>;
   @Input() swap: Observable<void>;
+
+  @Output() animationFinished = new EventEmitter<void>();
 
   constructor(private graphService: GraphService, private algorithmService: AlgorithmService) {
     this.subscription = algorithmService.result.subscribe(result => this.processResult(result));
@@ -81,6 +83,11 @@ export class GraphComponent implements OnInit, OnDestroy{
         counter = this.doHighlight(pair, counter);
       }
     }
+
+    //notify parent that animation is finished
+    setTimeout(() => {
+      this.animationFinished.next();
+    }, FRAME_DELAY * counter);
   }
 
   private doSwap(pair: Pair, counter: number): number {
