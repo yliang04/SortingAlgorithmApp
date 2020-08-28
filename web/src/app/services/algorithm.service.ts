@@ -7,6 +7,7 @@ import {BubbleSortAlgorithmService} from "./algorithm/bubble-sort-algorithm.serv
 import {MergeSortAlgorithmService} from "./algorithm/merge-sort-algorithm.service";
 import {QuickSortAlgorithmService} from "./algorithm/quick-sort-algorithm.service";
 import {Pair} from "../pair";
+import {HeapSortAlgorithmService} from "./algorithm/heap-sort-algorithm.service";
 
 @Injectable({
   providedIn: 'root'
@@ -36,12 +37,16 @@ export class AlgorithmService {
         break;
       case AlgorithmList.Quick:
         this.currentAlgorithm = this.quickSortAlgorithmService;
+        break;
+      case AlgorithmList.Heap:
+        this.currentAlgorithm = this.heapSortAlgorithmService;
     }
   }
 
   constructor(private bubbleSortAlgorithmService: BubbleSortAlgorithmService,
               private mergeSortAlgorithmService: MergeSortAlgorithmService,
-              private quickSortAlgorithmService: QuickSortAlgorithmService) { }
+              private quickSortAlgorithmService: QuickSortAlgorithmService,
+              private heapSortAlgorithmService: HeapSortAlgorithmService) { }
 
   getAlgorithmList(): Observable<string[]> {
     return of(Object.keys(AlgorithmList).map(k => AlgorithmList[k as string]));

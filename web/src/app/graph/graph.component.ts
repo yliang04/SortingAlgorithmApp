@@ -6,7 +6,7 @@ import {AlgorithmService} from "../services/algorithm.service";
 import {Pair} from "../pair";
 
 //time delay of each animation frame in millisecond
-const FRAME_DELAY: number = 20;
+const FRAME_DELAY: number = 100;
 
 @Component({
   selector: 'app-graph',
@@ -130,6 +130,8 @@ export class GraphComponent implements OnInit, OnDestroy{
     setTimeout(() => {
       this.bars[pair.i].highlighted = false;
     }, FRAME_DELAY * counter);
+
+    counter++;
 
     return counter;
   }
