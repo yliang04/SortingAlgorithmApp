@@ -1,4 +1,4 @@
-<div #container class="graph-box border border-primary">
+<div #container class="graph-box">
   <div *ngFor="let bar of bars" class="bar">
     <div [ngStyle]="{'height': bar.value + 'px', 'background-color': bar.highlighted ? 'orange' : 'grey'}">
     </div>

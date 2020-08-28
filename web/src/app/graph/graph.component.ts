@@ -6,7 +6,7 @@ import {AlgorithmService} from "../services/algorithm.service";
 import {Pair} from "../pair";
 
 //time delay of each animation frame in millisecond
-const FRAME_DELAY: number = 50;
+const FRAME_DELAY: number = 20;
 
 @Component({
   selector: 'app-graph',
@@ -58,10 +58,6 @@ export class GraphComponent implements OnInit, OnDestroy{
     this.graphService.randomizeArray(this.bars).subscribe(bars => this.bars = bars);
   }
 
-  getBarWidth(containerWidth: number): string {
-    return (containerWidth / this.size) + 'px';
-  }
-
   private sortArray(): void {
     this.algorithmService.algorithmChoice = this.selectedAlgorithm;
 
@@ -72,7 +68,7 @@ export class GraphComponent implements OnInit, OnDestroy{
   }
 
   /**
-   * Turn result into streams of actions
+   * Turn result into streams of actions/animation
    */
   private processResult(result: Pair[]) {
     let counter = 0;

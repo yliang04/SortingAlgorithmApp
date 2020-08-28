@@ -10,7 +10,7 @@ import {AlgorithmList} from "../services/algorithm/algorithm-list";
 })
 export class ControlPanelComponent implements OnInit {
 
-  @Input() size: number = 20;
+  @Input() size: number = 150;
   @Input() selectedAlgorithm: string = AlgorithmList.Bubble;
 
   randomizeEventSubject: Subject<void>  = new Subject<void>();

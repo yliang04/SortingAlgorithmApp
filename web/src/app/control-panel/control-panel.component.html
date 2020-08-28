@@ -1,8 +1,8 @@
-<div class="container">
-  <div class="row">
-    <h5>Sample Size: 1 - <input [(ngModel)]="this.size"/></h5>
+<div class="container control-panel">
+  <div class="row h-50">
+    <h5>Sample Size: 1 - <input [(ngModel)]="this.size" [disabled]="true"/></h5>
   </div>
-  <div class="row">
+  <div class="row h-50">
     <label for="algorithmList" class="col-form-label mr-2 text-primary">Algorithm List:</label>
     <select id="algorithmList" class="col-form-label mr-1" [(ngModel)]="selectedAlgorithm">
       <option *ngFor="let algorithm of algorithmList">{{algorithm}}</option>

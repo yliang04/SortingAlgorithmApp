@@ -15,7 +15,7 @@ export class GraphService {
     for(let i = 1; i <= size; i++) {
       let bar: Bar = {
         highlighted: false,
-        value: i * 2
+        value: i * 3
       };
 
       bars.push(bar);

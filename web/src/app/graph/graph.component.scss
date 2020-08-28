@@ -1,11 +1,14 @@
 .graph-box {
-  width: 90vw;
-  height: 80vh;
+  width: 95vw;
+  height: 60vh;
   margin: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 .bar {
-  width: 5px;
+  width: 5vw;
   float: left;
   margin-left: 1px;
 }
