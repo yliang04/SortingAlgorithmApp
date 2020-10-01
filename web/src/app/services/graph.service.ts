@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Bar} from "../bar";
+import {Bar} from "../graph/bar";
 import {Observable, of} from "rxjs";
 
 @Injectable({

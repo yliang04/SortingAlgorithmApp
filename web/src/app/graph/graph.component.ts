@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Bar} from "../bar";
+import {Bar} from "./bar";
 import {GraphService} from "../services/graph.service";
 import {Observable} from "rxjs";
 import {AlgorithmService} from "../services/algorithm.service";

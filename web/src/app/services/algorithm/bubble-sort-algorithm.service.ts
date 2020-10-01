@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {SortingAlgorithm} from "../../sorting-algorithm";
+import {SortingAlgorithm} from "./sorting-algorithm";
 import {Subject} from "rxjs";
-import {Bar} from "../../bar";
+import {Bar} from "../../graph/bar";
 import {Pair} from "../../pair";
 
 @Injectable({

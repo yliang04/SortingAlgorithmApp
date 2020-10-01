@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, Subject} from "rxjs";
-import {Bar} from "../bar";
+import {Bar} from "../graph/bar";
 import {AlgorithmList} from "./algorithm/algorithm-list";
-import {SortingAlgorithm} from "../sorting-algorithm";
+import {SortingAlgorithm} from "./algorithm/sorting-algorithm";
 import {BubbleSortAlgorithmService} from "./algorithm/bubble-sort-algorithm.service";
 import {MergeSortAlgorithmService} from "./algorithm/merge-sort-algorithm.service";
 import {QuickSortAlgorithmService} from "./algorithm/quick-sort-algorithm.service";
