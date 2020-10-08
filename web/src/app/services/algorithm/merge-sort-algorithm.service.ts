@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {SortingAlgorithm} from "./sorting-algorithm";
 import {Bar} from "../../graph/bar";
 import {Subject} from "rxjs";
-import {Pair} from "../../pair";
+import {Step} from "../../step";
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +11,16 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
 
   constructor() { }
 
-  sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void {
+  sort(bars: Bar[], resultEmitter: Subject<Step[]>): void {
     let helper: Bar[] = [];
-    let result: Pair[] = [];
+    let result: Step[] = [];
 
     this.mergeSort(bars, helper, 0, bars.length - 1, result);
 
     resultEmitter.next(result);
   }
 
-  private mergeSort(bars: Bar[], helper: Bar[], start: number, end: number, result: Pair[]): void {
+  private mergeSort(bars: Bar[], helper: Bar[], start: number, end: number, result: Step[]): void {
     if(start < end) {
       /**
        * Note: IMPORTANT!! Need to use Math.floor() here to get index as integer
@@ -33,7 +33,7 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
     }
   }
 
-  private merge(bars: Bar[], helper: Bar[], start: number, mid: number, end: number, result: Pair[]): void {
+  private merge(bars: Bar[], helper: Bar[], start: number, mid: number, end: number, result: Step[]): void {
     for(let i = start; i <= end; i++) {
       helper[i] = bars[i];
     }
@@ -71,13 +71,13 @@ export class MergeSortAlgorithmService implements SortingAlgorithm{
     }
   }
 
-  private addToResult(result: Pair[], index: number, value: number) {
-    let pair: Pair = {
+  private addToResult(result: Step[], index: number, value: number) {
+    let step: Step = {
       i: index,
       j: value,
       swap: false
     };
 
-    result.push(pair);
+    result.push(step);
   }
 }

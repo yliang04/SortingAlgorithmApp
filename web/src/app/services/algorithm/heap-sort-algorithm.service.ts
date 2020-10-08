@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {SortingAlgorithm} from "./sorting-algorithm";
 import {Subject} from "rxjs";
 import {Bar} from "../../graph/bar";
-import {Pair} from "../../pair";
+import {Step} from "../../step";
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class HeapSortAlgorithmService implements SortingAlgorithm{
 
   constructor() { }
 
-  sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void {
+  sort(bars: Bar[], resultEmitter: Subject<Step[]>): void {
     let n = bars.length;
-    let result: Pair[] = [];
+    let result: Step[] = [];
 
     for(let i = Math.floor(n / 2) - 1; i >= 0; i--) {
       this.heapify(bars, n, i, result);
@@ -27,7 +27,7 @@ export class HeapSortAlgorithmService implements SortingAlgorithm{
     resultEmitter.next(result);
   }
 
-  private heapify(bars: Bar[], n: number, i: number, result: Pair[]): void {
+  private heapify(bars: Bar[], n: number, i: number, result: Step[]): void {
     let largest = i;
     let left = 2 * i + 1;
     let right = 2 * i + 2;
@@ -46,14 +46,14 @@ export class HeapSortAlgorithmService implements SortingAlgorithm{
     }
   }
 
-  private swap(bars: Bar[], start: number, end: number, result: Pair[]): void {
-    let newPair: Pair = {
+  private swap(bars: Bar[], start: number, end: number, result: Step[]): void {
+    let newStep: Step = {
       i: start,
       j: end,
       swap: true
     };
 
-    result.push(newPair);
+    result.push(newStep);
 
     let temp = bars[start];
     bars[start] = bars[end];

@@ -3,7 +3,7 @@ import {Bar} from "./bar";
 import {GraphService} from "../services/graph.service";
 import {Observable} from "rxjs";
 import {AlgorithmService} from "../services/algorithm.service";
-import {Pair} from "../pair";
+import {Step} from "../step";
 
 @Component({
   selector: 'app-graph',
@@ -73,15 +73,15 @@ export class GraphComponent implements OnInit, OnDestroy{
   /**
    * Turn result into streams of actions/animation
    */
-  private processResult(result: Pair[]) {
+  private processResult(result: Step[]) {
     let counter = 0;
 
-    for (let pair of result) {
-      if(pair.swap) {
-        counter = this.doSwap(pair, counter);
+    for (let step of result) {
+      if(step.swap) {
+        counter = this.doSwap(step, counter);
       }
       else {
-        counter = this.doHighlight(pair, counter);
+        counter = this.doHighlight(step, counter);
       }
     }
 
@@ -91,45 +91,45 @@ export class GraphComponent implements OnInit, OnDestroy{
     }, this.speed * counter);
   }
 
-  private doSwap(pair: Pair, counter: number): number {
+  private doSwap(step: Step, counter: number): number {
     setTimeout(() => {
-      this.bars[pair.i].highlighted = true;
-      this.bars[pair.j].highlighted = true;
+      this.bars[step.i].highlighted = true;
+      this.bars[step.j].highlighted = true;
     }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
-      let temp = this.bars[pair.i];
-      this.bars[pair.i] = this.bars[pair.j];
-      this.bars[pair.j] = temp;
+      let temp = this.bars[step.i];
+      this.bars[step.i] = this.bars[step.j];
+      this.bars[step.j] = temp;
     }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
-      this.bars[pair.i].highlighted = false;
-      this.bars[pair.j].highlighted = false;
+      this.bars[step.i].highlighted = false;
+      this.bars[step.j].highlighted = false;
     }, this.speed * counter);
 
     return counter;
   }
 
-  private doHighlight(pair: Pair, counter: number): number {
+  private doHighlight(step: Step, counter: number): number {
     setTimeout(() => {
-      this.bars[pair.i].highlighted = true;
+      this.bars[step.i].highlighted = true;
     }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
-      this.bars[pair.i].value = pair.j;
+      this.bars[step.i].value = step.j;
     }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
-      this.bars[pair.i].highlighted = false;
+      this.bars[step.i].highlighted = false;
     }, this.speed * counter);
 
     counter++;

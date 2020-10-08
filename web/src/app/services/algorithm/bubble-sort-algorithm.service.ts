@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {SortingAlgorithm} from "./sorting-algorithm";
 import {Subject} from "rxjs";
 import {Bar} from "../../graph/bar";
-import {Pair} from "../../pair";
+import {Step} from "../../step";
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ export class BubbleSortAlgorithmService implements SortingAlgorithm {
   constructor() {
   }
 
-  sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void {
-    let result: Pair[] = [];
+  sort(bars: Bar[], resultEmitter: Subject<Step[]>): void {
+    let result: Step[] = [];
 
     let size = bars.length;
 
@@ -30,14 +30,14 @@ export class BubbleSortAlgorithmService implements SortingAlgorithm {
     resultEmitter.next(result);
   }
 
-  private swap(bars: Bar[], start: number, end: number, result: Pair[]): void {
-    let newPair: Pair = {
+  private swap(bars: Bar[], start: number, end: number, result: Step[]): void {
+    let newStep: Step = {
       i: start,
       j: end,
       swap: true
     };
 
-    result.push(newPair);
+    result.push(newStep);
 
     let temp = bars[start];
     bars[start] = bars[end];

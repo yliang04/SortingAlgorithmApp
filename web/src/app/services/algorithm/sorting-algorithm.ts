@@ -1,7 +1,7 @@
 import {Bar} from "../../graph/bar";
 import {Subject} from "rxjs";
-import {Pair} from "../../pair";
+import {Step} from "../../step";
 
 export declare interface SortingAlgorithm {
-  sort(bars: Bar[], resultEmitter: Subject<Pair[]>): void;
+  sort(bars: Bar[], resultEmitter: Subject<Step[]>): void;
 }
