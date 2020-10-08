@@ -20,30 +20,31 @@ export class RadixSortAlgorithmService implements SortingAlgorithm{
   }
 
   private radixSort(bars: Bar[], result: Step[]): void {
+    //first convert object array to num array
+    let numArray = this.convertToNumArray(bars);
+
     //first find the max number in the given array
-    let max = this.findMaxNum(bars);
+    let max = this.findMaxNum(numArray);
 
     //base 10 radix sort
     let base = 10;
 
-    let numArray = this.convertToNumArray(bars);
-
-
     //for each digit that the max value has, sort the array once at the given digit position
-    for(let i = 1; max / i > 0; i *= 10) {
+    //max / i >= 1 because i is like double(java). It doesn't get rounded to integer like in Java
+    for(let i = 1; max / i >= 1; i *= 10) {
       numArray = this.countingSort(numArray, i, result, base);
     }
   }
 
   /**
    * Find the max number/bar
-   * @param bars
+   * @param array
    */
-  private findMaxNum(bars: Bar[]): number {
+  private findMaxNum(array: number[]): number {
     let max = 0;
-    for(let bar of bars) {
-      if(bar.value > max) {
-        max = bar.value;
+    for(let num of array) {
+      if(num > max) {
+        max = num;
       }
     }
 
@@ -63,7 +64,8 @@ export class RadixSortAlgorithmService implements SortingAlgorithm{
 
     //Count the frequency of each number appear at this digit through out the entire array
     for(let i = 0; i < array.length; i++) {
-      count[(array[i] / digit) % base]++;
+      count[Math.floor(array[i] / digit) % base]++;
+
     }
 
     //sort the numbers
@@ -73,15 +75,15 @@ export class RadixSortAlgorithmService implements SortingAlgorithm{
 
     //create output array based on count
     for(let i = array.length - 1; i >= 0; i--) {
-      let countIndex = (array[i] / digit) % base;
+      let countIndex = Math.floor(array[i] / digit) % base;
 
       output[count[countIndex] - 1] = array[i];
+
+      //add result before decrement the count
+      this.addToResult(result, count[countIndex] - 1, array[i]);
+
       count[countIndex]--;
-
-      //this.addToResult(result, count[countIndex] - 1, array[i])
     }
-
-    console.log("output length: " + output.length);
 
     return output;
   }
