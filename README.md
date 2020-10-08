@@ -8,6 +8,7 @@ implemented algorithms
 * Heap Sort
 * Merge Sort
 * Quick Sort
+* Radix Sort
 
 I uses the Strategy pattern to implement different algorithems. It should make it
 easy to add new ones in the future.
