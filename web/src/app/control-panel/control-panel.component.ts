@@ -10,7 +10,11 @@ import {AlgorithmList} from "../services/algorithm/algorithm-list";
 })
 export class ControlPanelComponent implements OnInit {
 
-  @Input() size: number = 150;
+  size: number = 150;
+
+  //speed represents the time gap in milliseconds between each operation
+  speed: number = 30;
+
   @Input() selectedAlgorithm: string = AlgorithmList.Quick;
 
   private randomizeEventSubject: Subject<void>  = new Subject<void>();

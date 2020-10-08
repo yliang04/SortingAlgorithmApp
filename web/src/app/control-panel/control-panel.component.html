@@ -1,10 +1,13 @@
 <div class="container control-panel">
   <div class="row h-50">
-    <h5>Sample Size: 1 - <input [(ngModel)]="this.size" [disabled]="true"/></h5>
+    <h6>Sample Size: 1 - <input [(ngModel)]="this.size" [disabled]="true"/></h6>
   </div>
   <div class="row h-50">
-    <label for="algorithmList" class="col-form-label mr-2 text-primary">Algorithm List:</label>
-    <select id="algorithmList" class="col-form-label mr-1" [(ngModel)]="selectedAlgorithm" [disabled]="this.formDisabled">
+    <h6>Animation Speed <input [(ngModel)]="this.speed" [disabled]="this.formDisabled"/> Milliseconds</h6>
+  </div>
+  <div class="row h-50">
+    <label for="algorithmList" class="col-form-label mr-3 text-primary">Algorithm List:</label>
+    <select id="algorithmList" class="col-form-label mr-3" [(ngModel)]="selectedAlgorithm" [disabled]="this.formDisabled">
       <option *ngFor="let algorithm of algorithmList">{{algorithm}}</option>
     </select>
     <button type="button" (click)="sort()" class="col-form-label mr-3 btn btn-outline-primary"
@@ -18,5 +21,5 @@
   </div>
 </div>
 
-<app-graph [size]="this.size" [randomize]="randomizeSignal" [sort]="sortSignal" [swap]="swapSignal"
+<app-graph [size]="this.size" [speed]="this.speed" [randomize]="randomizeSignal" [sort]="sortSignal" [swap]="swapSignal"
            [selectedAlgorithm]="this.selectedAlgorithm" (animationFinished)="this.formDisabled = false"></app-graph>

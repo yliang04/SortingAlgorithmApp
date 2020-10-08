@@ -5,9 +5,6 @@ import {Observable} from "rxjs";
 import {AlgorithmService} from "../services/algorithm.service";
 import {Pair} from "../pair";
 
-//time delay of each animation frame in millisecond
-const FRAME_DELAY: number = 30;
-
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
@@ -19,6 +16,10 @@ export class GraphComponent implements OnInit, OnDestroy{
 
   bars: Bar[];
   subscription: any;
+
+  //time delay of each animation frame in millisecond
+  @Input() speed: number;
+
 
   @Input()
   get size(): number { return this._size}
@@ -87,14 +88,14 @@ export class GraphComponent implements OnInit, OnDestroy{
     //notify parent that animation is finished
     setTimeout(() => {
       this.animationFinished.next();
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
   }
 
   private doSwap(pair: Pair, counter: number): number {
     setTimeout(() => {
       this.bars[pair.i].highlighted = true;
       this.bars[pair.j].highlighted = true;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     counter++;
 
@@ -102,14 +103,14 @@ export class GraphComponent implements OnInit, OnDestroy{
       let temp = this.bars[pair.i];
       this.bars[pair.i] = this.bars[pair.j];
       this.bars[pair.j] = temp;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
       this.bars[pair.i].highlighted = false;
       this.bars[pair.j].highlighted = false;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     return counter;
   }
@@ -117,19 +118,19 @@ export class GraphComponent implements OnInit, OnDestroy{
   private doHighlight(pair: Pair, counter: number): number {
     setTimeout(() => {
       this.bars[pair.i].highlighted = true;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
       this.bars[pair.i].value = pair.j;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     counter++;
 
     setTimeout(() => {
       this.bars[pair.i].highlighted = false;
-    }, FRAME_DELAY * counter);
+    }, this.speed * counter);
 
     counter++;
 
